@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Title -->
+<h2 class="text-center mt-4 text-error">You've submitted the Incorrect flag.</h2>
+
+<!-- Back to Dashboard Button -->
+<div class="text-center mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Back to Dashboard</a>
+</div>
+
+{% endblock %}
+
+<!-- Add custom styles for this page -->
+<style>
+    /* Title */
+    h2 {
+        color: #4caf50;
+        font-size: 2em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Button Styling */
+    .btn {
+        background-color: #00bcd4;
+        color: white;
+        padding: 12px 30px;
+        font-size: 1.2em;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+        background-color: #039be5;
+        cursor: pointer;
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+</style>

@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="profile-header">
+    <h1>{{ user.username }}</h1>
+    <p>Welcome to your profile!</p>
+</div>
+
+<!-- Profile Information -->
+<div class="profile-info">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+    <p><strong>Challenges Solved:</strong> {{ solved_challenges|length }}</p>
+    
+
+</div>
+
+<div class="separator"></div>
+
+<!-- List of Solved Challenges -->
+<div class="challenge-list">
+    <h3>Challenges Solved</h3>
+    <div class="challenge-grid">
+        {% for challenge in solved_challenges %}
+            <div class="challenge-item">
+                <strong>{{ challenge.title }}</strong> - {{ challenge.get_difficulty_display }}
+                <div id="challenge-details-{{ challenge.id }}" class="challenge-details" style="display: none;">
+                    <p>{{ challenge.description }}</p>
+                    <p><strong>Points:</strong> {{ challenge.points }}</p>
+                    <p><strong>Category:</strong> {{ challenge.category }}</p>
+                </div>
+                <button class="details-button" onclick="toggleChallengeDetails('{{ challenge.id }}')">View Details</button>
+            </div>
+        {% empty %}
+            <p class="text-center text-light">You haven't solved any challenges yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .challenge-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .challenge-item {
+        flex: 1 1 calc(33.333% - 20px);
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .challenge-item strong {
+        font-size: 1.2em;
+        color: #fff;
+    }
+
+    .details-button {
+        background-color: #00ffcc;
+        border: none;
+        color: #1e1e1e;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .details-button:hover {
+        background-color: #00e6b8;
+    }
+
+    .challenge-details {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .challenge-details p {
+        margin: 5px 0;
+    }
+</style>
+
+<style>
+    .details-button {
+        background-color: #00ffcc;
+        border: none;
+        color: #1e1e1e;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .details-button:hover {
+        background-color: #00e6b8;
+    }
+
+    .challenge-details {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .challenge-details p {
+        margin: 5px 0;
+    }
+</style>
+
+<script>
+    function toggleChallengeDetails(challengeId) {
+        var details = document.getElementById('challenge-details-' + challengeId);
+        if (details.style.display === 'none') {
+            details.style.display = 'block';
+        } else {
+            details.style.display = 'none';
+        }
+    }
+</script>
+{% else %}
+<div class="no-account-message">
+    <p>You don't have an account. Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'register' %}">sign up</a>.</p>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block styles %}
+<style>
+    .profile-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-header h1 {
+        font-size: 2.5em;
+        color: #00ffcc; /* Adjusted to match the theme */
+    }
+
+    .profile-header p {
+        font-size: 1.2em;
+        color: #bbb;
+    }
+
+    .profile-info {
+        background-color: #1e1e1e; /* Dark background to match the theme */
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: #e0e0e0; /* Light text for contrast */
+    }
+
+    .profile-info p {
+        font-size: 1.1em;
+        color: #e0e0e0;
+    }
+
+    .separator {
+        height: 2px;
+        background-color: #333; /* Darker separator */
+        margin: 20px 0;
+    }
+
+    .challenge-list {
+        background-color: #1e1e1e; /* Dark background */
+        padding: 20px;
+        border-radius: 8px;
+        color: #e0e0e0; /* Light text */
+    }
+
+    .challenge-list h3 {
+        font-size: 1.8em;
+        color: #00ffcc; /* Accent color */
+        margin-bottom: 15px;
+    }
+
+    .challenge-item {
+        padding: 10px;
+        border-bottom: 1px solid #444; /* Slightly darker border */
+    }
+
+    .challenge-item strong {
+        font-size: 1.2em;
+        color: #fff; /* White text for challenge names */
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-light {
+        color: #999;
+    }
+
+    .no-account-message {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.2em;
+        color: #e0e0e0;
+    }
+
+    .no-account-message a {
+        color: #00ffcc;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

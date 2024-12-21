@@ -1,0 +1,133 @@
+{% block content %}
+
+<h1 class="text-center text-info">{{ challenge.title }}</h1>
+
+<!-- Challenge Info Section -->
+<div class="challenge-info">
+    <p class="text-light small"><strong>Difficulty:</strong> {{ challenge.get_difficulty_display }}</p>
+    <p class="text-light small"><strong>Type:</strong> {{ challenge.get_challenge_type_display }}</p>
+    <p class="text-light small"><strong>Points:</strong> {{ challenge.points }}</p>  <!-- Display Points -->
+    <p class="text-light small"><strong>Description:</strong></p>
+    <p class="text-light small">{{ challenge.description }}</p>
+    
+    <!-- Download File Option -->
+    {% if challenge.attach %}
+        <p class="text-light mt-2">
+            <strong>Attachment:</strong> 
+            <a href="{{ challenge.attach.url }}" class="btn btn-secondary btn-sm" download>Download File</a>
+        </p>
+    {% endif %}
+</div>
+
+<hr class="text-info">
+
+<!-- Submit Flag Form -->
+{% if challenge.is_solved %}
+    <div class="alert alert-success text-center">You have already solved this challenge!</div>
+{% else %}
+<h5 class="text-center text-light">Submit Flag</h5>
+<form method="post" action="{% url 'submit_flag' challenge.id %}" class="flag-form">
+    {% csrf_token %}
+    <div class="mb-2">
+        <label for="flag" class="form-label text-light small">Flag</label>
+        <input type="text" class="form-control form-control-sm" id="flag" name="flag" placeholder="Enter the flag" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100 btn-sm">Submit</button>
+</form>
+{% endif %}
+
+{% endblock %}
+
+
+{% block styles %}
+
+<!-- Add custom styles for this page -->
+<style>
+    /* Compact Title */
+    h1 {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #00ffcc;
+        text-align: center;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    /* Challenge Info */
+    .challenge-info p {
+        font-size: 0.9em;
+        color: #e0e0e0;
+        margin-bottom: 5px;
+    }
+
+    .challenge-info {
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #2a2a2a;
+        border-radius: 8px;
+    }
+
+    /* Form Styling */
+    .flag-form {
+        background-color: #2a2a2a;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-label {
+        color: #e0e0e0;
+        font-size: 0.9em;
+    }
+
+    .form-control {
+        background-color: #333;
+        color: #fff;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 0.9em;
+        margin-top: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #00bcd4;
+        outline: none;
+    }
+
+    .btn-success {
+        background-color: #00bcd4;
+        color: white;
+        padding: 8px 10px;
+        font-size: 0.9em;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #03a9f4;
+    }
+
+    /* Separator */
+    hr.text-info {
+        border-top: 1px solid #00bcd4;
+        width: 50%;
+        margin: 15px auto;
+    }
+
+    /* Download Button */
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 5px 8px;
+        font-size: 0.8em;
+        border-radius: 4px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+
+{% endblock %}

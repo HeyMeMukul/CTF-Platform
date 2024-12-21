@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-center text-info mt-4">Register</h2>
+
+<form method="POST" class="register-form">
+    {% csrf_token %}
+    
+    <!-- Form Fields -->
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+</form>
+<div style="height: 100px;"></div>
+{% endblock %}
+
+<!-- Add custom styles for this page -->
+<style>
+    /* Title Styling */
+    h2 {
+        font-size: 2.5em;
+        color: #00bcd4;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-align: center;
+    }
+
+    h2:hover {
+        color: #03a9f4;
+    }
+
+    /* Register Form Container */
+    .register-form {
+        background-color: #2a2a2a;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group p {
+        font-size: 1.1em;
+        color: #e0e0e0;
+        margin-bottom: 15px;
+    }
+
+    /* Input Fields */
+    input {
+        background-color: #333;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 12px;
+        width: 100%;
+        font-size: 1em;
+        border-radius: 5px;
+        margin-top: 10px;
+        transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+        border-color: #00bcd4;
+        outline: none;
+    }
+
+    /* Button Styling */
+    button {
+        background-color: #00bcd4;
+        color: white;
+        padding: 12px;
+        font-size: 1.2em;
+        width: 100%;
+        border-radius: 5px;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #03a9f4;
+        cursor: pointer;
+    }
+
+    /* Add animation to button */
+    button:active {
+        transform: scale(0.98);
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        .register-form {
+            width: 80%;
+        }
+    }
+</style>
+
