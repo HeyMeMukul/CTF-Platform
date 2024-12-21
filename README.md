@@ -110,11 +110,7 @@ To deploy the platform to Heroku:
 
 Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
-## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
 
 ### Contact
 If you have any questions or feedback, feel free to reach out via [memukuljoshi@gmail.com].
