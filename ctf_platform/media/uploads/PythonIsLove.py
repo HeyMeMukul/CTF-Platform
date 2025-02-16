@@ -70,7 +70,6 @@ def main():
     
     if choice == 'a':
       print_encouragement()
-      print_flag()
       
     elif choice == 'b':
       print('\nOops! I must have misplaced the print_flag function! Check my source code!\n\n')
