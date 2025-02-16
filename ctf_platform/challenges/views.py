@@ -163,7 +163,6 @@ def submit_flag(request, challenge_id):
 from django.db.models import Sum
 import random
 
-@login_required
 
 def leaderboard(request):
     users = User.objects.filter(role='participant')  # Filter participants if role is defined
