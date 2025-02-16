@@ -163,6 +163,7 @@ def submit_flag(request, challenge_id):
 from django.db.models import Sum
 import random
 
+@login_required
 
 def leaderboard(request):
     users = User.objects.filter(role='participant')  # Filter participants if role is defined
@@ -212,11 +213,46 @@ def leaderboard(request):
         }
         for entry in leaderboard_data
     ]
+    # Calculate user's rank
+    user_rank = None
+    if request.user.is_authenticated:
+        user_score = (
+            Submission.objects
+            .filter(user=request.user, is_correct=True)
+            .aggregate(total_score=Sum('challenge__points'))['total_score'] or 0
+        )
+        leaderboard_scores = [entry['total_score'] for entry in leaderboard_data]
+        user_rank = sorted(leaderboard_scores, reverse=True).index(user_score) + 1
+
+    user_scores = []
+    if request.user.is_authenticated:
+        for timestamp in timestamps:
+            score = Submission.objects.filter(
+                user=request.user,
+                timestamp__lte=timestamp,
+                is_correct=True
+            ).aggregate(total_score=Sum('challenge__points'))['total_score'] or 0
+            user_scores.append(score)    
+
+     # Fetch solved challenges for the user
+    solved_challenges = []
+    if request.user.is_authenticated:
+        solved_challenges = (
+            Submission.objects
+            .filter(user=request.user, is_correct=True)
+            .select_related('challenge')
+            .values_list('challenge__title', 'challenge__points')
+        )
+        
 
     context = {
         'labels': labels,
         'datasets': datasets,
         'leaderboard': leaderboard_data,
+        'user_rank': user_rank,
+        'user_scores': user_scores,
+        'solved_challenges': solved_challenges,
+
     }
 
     return render(request, 'leaderboard.html', context)

@@ -35,13 +35,18 @@ class Challenge(models.Model):
         ('crypto', 'Cryptography'),
         ('reverse', 'Reverse Engineering'),
         ('linux', 'Linux'),
+        ('Steganography', 'Steganography'),
+        ('forensics', 'Forensics'),
+        ('misc', 'Miscellaneous'),
+
+
     )
     id = models.PositiveIntegerField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)  # Enforce unique titles
     description = models.TextField()
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES)
     points = models.PositiveIntegerField(default=50)
-    challenge_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    challenge_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     flag = models.CharField(max_length=100)  # Use flag validation in views or forms
     is_active = models.BooleanField(default=True)
     attach = models.FileField(upload_to='uploads/', blank=True, null = True)

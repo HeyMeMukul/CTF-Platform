@@ -12,32 +12,23 @@
     <p><strong>Username:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
-    <p><strong>Challenges Solved:</strong> {{ solved_challenges|length }}</p>
+
+    <p><strong>Current Rank:</strong> {{ user_rank }}</p>
+
+   
+
     
 
 </div>
-
-<div class="separator"></div>
-
-<!-- List of Solved Challenges -->
-<div class="challenge-list">
-    <h3>Challenges Solved</h3>
-    <div class="challenge-grid">
+<div class="solved-challenges">
+    <h3>Solved Challenges</h3>
+    <ul>
         {% for challenge in solved_challenges %}
-            <div class="challenge-item">
-                <strong>{{ challenge.title }}</strong> - {{ challenge.get_difficulty_display }}
-                <div id="challenge-details-{{ challenge.id }}" class="challenge-details" style="display: none;">
-                    <p>{{ challenge.description }}</p>
-                    <p><strong>Points:</strong> {{ challenge.points }}</p>
-                    <p><strong>Category:</strong> {{ challenge.category }}</p>
-                </div>
-                <button class="details-button" onclick="toggleChallengeDetails('{{ challenge.id }}')">View Details</button>
-            </div>
-        {% empty %}
-            <p class="text-center text-light">You haven't solved any challenges yet.</p>
+            <li>{{ challenge.title }} - {{ challenge.points }} points</li>
         {% endfor %}
-    </div>
+    </ul>
 </div>
+<div class="separator"></div>
 
 <style>
     .challenge-grid {

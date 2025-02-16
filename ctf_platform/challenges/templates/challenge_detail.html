@@ -8,7 +8,9 @@
     <p class="text-light small"><strong>Type:</strong> {{ challenge.get_challenge_type_display }}</p>
     <p class="text-light small"><strong>Points:</strong> {{ challenge.points }}</p>  <!-- Display Points -->
     <p class="text-light small"><strong>Description:</strong></p>
-    <p class="text-light small">{{ challenge.description }}</p>
+    <div class="description-container">
+        <p class="text-light small" style="font-style: italic; color: #d3d3d3; white-space: pre-wrap;">{{ challenge.description }}</p>
+    </div>
     
     <!-- Download File Option -->
     {% if challenge.attach %}
@@ -29,10 +31,19 @@
 <form method="post" action="{% url 'submit_flag' challenge.id %}" class="flag-form">
     {% csrf_token %}
     <div class="mb-2">
-        <label for="flag" class="form-label text-light small">Flag</label>
-        <input type="text" class="form-control form-control-sm" id="flag" name="flag" placeholder="Enter the flag" required>
+        <label for="submitted_flag" class="form-label text-light small">Enter Flag</label>
+        <input type="text" class="form-control form-control-sm" id="submitted_flag" name="submitted_flag" 
+            {% if user_submission %}
+                value="{{ user_submission }}" 
+                readonly  
+            {% endif %}
+            placeholder="Enter the flag" required>
     </div>
-    <button type="submit" class="btn btn-success w-100 btn-sm">Submit</button>
+    {% if user_submission %}
+        <button type="submit" class="btn btn-success w-100 btn-sm" disabled>Flag Already Submitted</button>
+    {% else %}
+        <button type="submit" class="btn btn-success w-100 btn-sm">Submit</button>
+    {% endif %}
 </form>
 {% endif %}
 
